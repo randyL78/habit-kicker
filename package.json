@@ -1,5 +1,11 @@
 {
   "devDependencies": {
-    "cypress": "^12.17.2"
+    "@badeball/cypress-cucumber-preprocessor": "^16.0.1",
+    "@bahmutov/cypress-esbuild-preprocessor": "^2.2.0",
+    "cypress": "^12.17.2",
+    "ts-loader": "^9.4.4"
+  },
+  "cypress-cucumber-preprocessor": {
+    "stepDefinitions": "cypress/support/step_definitions/**/*.js"
   }
 }
