@@ -18,7 +18,7 @@ are also stored.
 From a terminal in the directory you want to install, run:
 
 ```bash
-git clone git@github.com:randyL78/habit-kicker.git
+git clone git@gitlab.com:randydavidl78/habit-kicker.git
 cd habit-kicker
 ```
 
