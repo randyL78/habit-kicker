@@ -1,0 +1,26 @@
+stages:
+  - commit
+  - acceptance
+  - deploy-staging
+  - deploy-production
+
+commit:
+  stage: commit
+  script:
+    - echo This is the commit stage
+
+acceptance:
+  stage: acceptance
+  script:
+    - echo This is the acceptance stage
+    
+deploy-staging:
+  stage: deploy-staging
+  script:
+    - echo This is the deploy-staging stage
+
+deploy-production:
+  stage: deploy-production
+  script:
+    - echo This is the deploy-production stage
+    
