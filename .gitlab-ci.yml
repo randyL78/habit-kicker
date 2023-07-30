@@ -1,13 +1,17 @@
+default:
+  interruptible: true
+  timeout: 1 hour
+
 stages:
   - commit
   - acceptance
   - deploy-staging
   - deploy-production
 
-commit:
+API_UNIT_TEST:
   stage: commit
   script:
-    - echo This is the commit stage
+    - echo Run unit tests for habit-kicker-rails
 
 acceptance:
   stage: acceptance
@@ -15,11 +19,16 @@ acceptance:
     - echo This is the acceptance stage
     
 deploy-staging:
+  only:
+    - main
   stage: deploy-staging
   script:
     - echo This is the deploy-staging stage
 
 deploy-production:
+  only:
+    - main
+  when: manual
   stage: deploy-production
   script:
     - echo This is the deploy-production stage
