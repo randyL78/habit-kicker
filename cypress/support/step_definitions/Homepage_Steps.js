@@ -6,6 +6,6 @@ Given('I visit the Habit Tracker homepage', () => {
   cy.visit(URL)
 })
 
-Then('I should see Hello World', () => {
-  cy.get('body').contains('Hello World')
+Then('I should see {string}', (title) => {
+  cy.get('body').contains(title)
 })
