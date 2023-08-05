@@ -44,6 +44,9 @@ DEPLOY_STAGING:
     name: amazon/aws-cli:latest
     entrypoint:
       - '/usr/bin/env'
+  id_tokens:
+    ID_TOKEN:
+      aud: habit_kicker_react_s3
   stage: deploy-staging
   script:
     - *assume_role
