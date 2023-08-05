@@ -5,6 +5,7 @@ default:
 stages:
   - commit
   - deploy-staging
+  - deploy-production
 
 .assume_role: &assume_role
   - >
@@ -27,7 +28,7 @@ CLIENT_UNIT_TEST:
     - npm install
     - CI=true npm test
 
-BUILD_CLIENT:
+CLIENT_BUILD:
   image: node:20-alpine
   stage: commit
   script:
@@ -39,7 +40,7 @@ BUILD_CLIENT:
       - client/build
     when: on_success
 
-DEPLOY_STAGING:
+CLIENT_DEPLOY_STAGING:
   image:
     name: amazon/aws-cli:latest
     entrypoint:
@@ -51,4 +52,19 @@ DEPLOY_STAGING:
   script:
     - *assume_role
     - aws s3 sync client/build s3://${S3_BUCKET}/staging
+    - aws cloudfront create-invalidation --distribution-id ${STAGING_DISTRIBUTION_ID} --paths "/index.html"
+
+CLIENT_DEPLOY_PRODUCTION:
+  image:
+    name: amazon/aws-cli:latest
+    entrypoint:
+      - '/usr/bin/env'
+  id_tokens:
+    ID_TOKEN:
+      aud: habit_kicker_react_s3
+  stage: deploy-production
+  when: manual
+  script:
+    - *assume_role
+    - aws s3 sync client/build s3://${S3_BUCKET}/production
     - aws cloudfront create-invalidation --distribution-id ${STAGING_DISTRIBUTION_ID} --paths "/index.html"
