@@ -7,17 +7,17 @@ stages:
   - deploy-staging
 
 .assume_role: &assume_role
-                - >
-                  STS=($(aws sts assume-role-with-web-identity
-                  --role-arn ${AWS_ROLE_ARN}
-                  --role-session-name "GitLabRunner-${CI_PROJECT_ID}-${CI_PIPELINE_ID}"
-                  --web-identity-token $ID_TOKEN
-                  --duration-seconds 3600
-                  --query 'Credentials.[AccessKeyId,SecretAccessKey,SessionToken]'
-                  --output text))
-                - export AWS_ACCESS_KEY_ID="${STS[0]}"
-                - export AWS_SECRET_ACCESS_KEY="${STS[1]}"
-                - export AWS_SESSION_TOKEN="${STS[2]}"
+  - >
+    STS=($(aws sts assume-role-with-web-identity
+    --role-arn ${AWS_ROLE_ARN}
+    --role-session-name "GitLabRunner-${CI_PROJECT_ID}-${CI_PIPELINE_ID}"
+    --web-identity-token $ID_TOKEN
+    --duration-seconds 3600
+    --query 'Credentials.[AccessKeyId,SecretAccessKey,SessionToken]'
+    --output text))
+  - export AWS_ACCESS_KEY_ID="${STS[0]}"
+  - export AWS_SECRET_ACCESS_KEY="${STS[1]}"
+  - export AWS_SESSION_TOKEN="${STS[2]}"
 
 CLIENT_UNIT_TEST:
   image: node:20-alpine
@@ -49,7 +49,6 @@ DEPLOY_STAGING:
       aud: habit_kicker_react_s3
   stage: deploy-staging
   script:
-    - echo assuming role
     - *assume_role
-    - echo syncing to S3
     - aws s3 sync client/build s3://${S3_BUCKET}/staging
+    - aws cloudfront create-invalidation --distribution-id ${STAGING_DISTRIBUTION_ID} --paths "/index.html"
