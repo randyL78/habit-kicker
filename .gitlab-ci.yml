@@ -4,9 +4,7 @@ default:
 
 stages:
   - commit
-  - acceptance
   - deploy-staging
-  - deploy-production
 
 CLIENT_UNIT_TEST:
   image: node:20-alpine
@@ -15,29 +13,13 @@ CLIENT_UNIT_TEST:
     - cd client
     - npm install
     - CI=true npm test
-
-API_UNIT_TEST:
-  stage: commit
-  script:
-    - echo Run unit tests for habit-kicker-rails
-
-acceptance:
-  stage: acceptance
-  script:
-    - echo This is the acceptance stage
     
 deploy-staging:
+  image: node:20-alpine
   only:
     - main
   stage: deploy-staging
   script:
     - echo This is the deploy-staging stage
 
-deploy-production:
-  only:
-    - main
-  when: manual
-  stage: deploy-production
-  script:
-    - echo This is the deploy-production stage
     

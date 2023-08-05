@@ -1,0 +1,21 @@
+apiVersion: skaffold/v4beta5
+kind: Config
+metadata:
+  name: habit-kicker
+build:
+  artifacts:
+    - image: registry.gitlab.com/randydavidl78/habit-kicker/api
+      context: habit-kicker-rails
+      docker:
+        dockerfile: Dockerfile
+    - image: registry.gitlab.com/randydavidl78/habit-kicker/client
+      context: client
+      docker:
+        dockerfile: Dockerfile
+manifests:
+  rawYaml:
+    - k8s/api-cluster.yaml
+    - k8s/api-deployment.yaml
+    - k8s/client-cluster.yaml
+    - k8s/client-deployment.yaml
+    - k8s/ingress.yaml
