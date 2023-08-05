@@ -13,7 +13,19 @@ CLIENT_UNIT_TEST:
     - cd client
     - npm install
     - CI=true npm test
-    
+
+BUILD_CLIENT:
+  image: node:20-alpine
+  stage: commit
+  script:
+    - cd client
+    - npm install
+    - npm run build
+  artifacts:
+    paths:
+      - build
+    when: always
+
 deploy-staging:
   image: node:20-alpine
   only:
