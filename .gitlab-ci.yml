@@ -8,6 +8,12 @@ stages:
   - deploy-staging
   - deploy-production
 
+CLIENT_UNIT_TEST:
+  stage: commit
+  script:
+    - cd client
+    - CI=true npm test
+
 API_UNIT_TEST:
   stage: commit
   script:

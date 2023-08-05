@@ -18,3 +18,10 @@ spec:
                   number: 3000
             pathType: Prefix
             path: /?(.*)
+          - backend:
+              service:
+                name: hk-api-cluster
+                port:
+                  number: 5000
+            pathType: Prefix
+            path: /api/?(.*)
