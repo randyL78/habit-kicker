@@ -9,9 +9,11 @@ stages:
   - deploy-production
 
 CLIENT_UNIT_TEST:
+  image: node:20-alpine
   stage: commit
   script:
     - cd client
+    - npm install
     - CI=true npm test
 
 API_UNIT_TEST:
