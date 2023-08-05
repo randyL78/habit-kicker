@@ -23,8 +23,8 @@ BUILD_CLIENT:
     - npm run build
   artifacts:
     paths:
-      - build
-    when: always
+      - client/build
+    when: on_success
 
 deploy-staging:
   image: node:20-alpine
