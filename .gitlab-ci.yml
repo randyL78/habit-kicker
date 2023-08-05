@@ -40,14 +40,12 @@ BUILD_CLIENT:
     when: on_success
 
 DEPLOY_STAGING:
-  image:
-    name: amazon/aws-cli:latest
-    entrypoint:
-      - '/usr/bin/env'
+  image: amazon/aws-cli:latest
   id_tokens:
     ID_TOKEN:
       aud: habit_kicker_react_s3
   stage: deploy-staging
   script:
     - *assume_role
+    - echo syncing to aws
     - aws s3 sync client/build s3://${S3_BUCKET}/staging
