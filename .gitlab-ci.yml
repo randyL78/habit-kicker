@@ -21,6 +21,17 @@ stages:
   - export AWS_SECRET_ACCESS_KEY="${STS[1]}"
   - export AWS_SESSION_TOKEN="${STS[2]}"
 
+.build_containers: &build_containers
+  image: docker:20.10.16
+  services:
+    - docker:20.10.16-dind
+  stage: commit
+  script:
+    - cd client
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker build -t $IMAGE_TAG .
+    - docker push $IMAGE_TAG
+
 CLIENT_UNIT_TEST:
   image: node:20-alpine
   stage: commit
@@ -42,17 +53,10 @@ CLIENT_BUILD:
     when: on_success
 
 CLIENT_BUILD_CONTAINER:
-  image: docker:20.10.16
-  services:
-    - docker:20.10.16-dind
-  stage: commit
+  <<: *build_containers
   variables:
     IMAGE_TAG: $CI_REGISTRY_IMAGE/client:$CI_COMMIT_SHORT_SHA
-  script:
-    - cd client
-    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-    - docker build -t $IMAGE_TAG .
-    - docker push $IMAGE_TAG
+
 
 CLIENT_DEPLOY_STAGING:
   image:
@@ -84,30 +88,14 @@ CLIENT_DEPLOY_PRODUCTION:
     - aws cloudfront create-invalidation --distribution-id ${STAGING_DISTRIBUTION_ID} --paths "/index.html"
 
 API_BUILD:
-  image: docker:20.10.16
-  services:
-    - docker:20.10.16-dind
-  stage: commit
+  <<: *build_containers
   variables:
     IMAGE_TAG: $CI_REGISTRY_IMAGE/api:$CI_COMMIT_SHORT_SHA
-  script:
-    - cd habit-kicker-rails
-    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-    - docker build -t $IMAGE_TAG .
-    - docker push $IMAGE_TAG
 
 NGINX_BUILD:
-  image: docker:20.10.16
-  services:
-    - docker:20.10.16-dind
-  stage: commit
+  <<: *build_containers
   variables:
     IMAGE_TAG: $CI_REGISTRY_IMAGE/nginx
-  script:
-    - cd habit-kicker-rails
-    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-    - docker build -t $IMAGE_TAG .
-    - docker push $IMAGE_TAG
   rules:
     - changes:
         paths:
