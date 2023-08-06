@@ -37,7 +37,10 @@ services:
       - '5432:5432'
 
   api:
-    build: habit-kicker-rails
+    build:
+      context: habit-kicker-rails
+      dockerfile: habit-kicker-rails/Dockerfile.CI
+
     depends_on:
       - postgres
     environment:
