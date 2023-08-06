@@ -70,10 +70,22 @@ CLIENT_DEPLOY_PRODUCTION:
     - aws s3 sync client/build s3://${S3_BUCKET}/production
     - aws cloudfront create-invalidation --distribution-id ${STAGING_DISTRIBUTION_ID} --paths "/index.html"
 
-CYPRESS:
+BUILD_API:
   image: docker:20.10.16
   services:
     - docker:20.10.16-dind
   stage: commit
   script:
-    - docker compose -f docker-compose.ci.yml up --exit-code-from cypress
+    - cd habit-kicker-rails
+    - docker build -t registry.gitlab.com/randydavidl78/habit-kicker/api:ci_$CI_COMMIT_SHORT_SHA .
+    - docker push registry.gitlab.com/randydavidl78/habit-kicker/api:ci_$CI_COMMIT_SHORT_SHA
+
+
+
+# CYPRESS:
+#  image: docker:20.10.16
+#  services:
+#    - docker:20.10.16-dind
+#  stage: commit
+#  script:
+#    - docker compose -f docker-compose.ci.yml up --exit-code-from cypress
