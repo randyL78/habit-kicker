@@ -1,6 +1,6 @@
 import { Given, Then } from '@badeball/cypress-cucumber-preprocessor'
 
-const URL = "http://localhost:8080/"
+const URL = "http://nginx:80/"
 
 Given('I visit the Habit Kicker homepage', () => {
   cy.visit(URL)

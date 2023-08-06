@@ -1,4 +1,9 @@
 {
+  "scripts": {
+    "ci_e2e": "npx cypress run - browser chrome - headless",
+    "e2e": "npx cypress open"
+  },
+
   "devDependencies": {
     "@badeball/cypress-cucumber-preprocessor": "^16.0.1",
     "@bahmutov/cypress-esbuild-preprocessor": "^2.2.0",
