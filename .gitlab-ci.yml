@@ -74,9 +74,12 @@ CYPRESS:
   image: docker:20.10.16
   services:
     - docker:20.10.16-dind
-  stage: acceptance
+  stage: commit
   script:
-    - docker compose -f docker-compose.ci.yml up -d
+#    - docker compose -f docker-compose.ci.yml up -d
+    - ls
+    - ls ci
+    - chmod +x ci/test_api_up.sh
     - ./ci/test_api_up.sh
-    - docker compose stop
+#    - docker compose stop
 
