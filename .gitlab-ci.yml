@@ -96,6 +96,23 @@ API_BUILD:
     - docker build -t $IMAGE_TAG .
     - docker push $IMAGE_TAG
 
+NGINX_BUILD:
+  image: docker:20.10.16
+  services:
+    - docker:20.10.16-dind
+  stage: commit
+  variables:
+    IMAGE_TAG: $CI_REGISTRY_IMAGE/nginx
+  script:
+    - cd habit-kicker-rails
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker build -t $IMAGE_TAG .
+    - docker push $IMAGE_TAG
+  rules:
+    - changes:
+        paths:
+          - nginx
+
 CLEANUP_CI_DOCKER_IMAGES:
   image: curlimages/curl:7.86.0
   stage: cleanup
