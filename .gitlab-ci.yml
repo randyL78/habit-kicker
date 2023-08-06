@@ -80,6 +80,6 @@ CYPRESS:
     - ls
     - ls ci
     - chmod +x ci/test_api_up.sh
-    - ./ci/test_api_up.sh
+    - ci/test_api_up.sh
 #    - docker compose stop
 
