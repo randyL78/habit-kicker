@@ -75,10 +75,13 @@ BUILD_API:
   services:
     - docker:20.10.16-dind
   stage: commit
+  variables:
+    IMAGE_TAG: $CI_REGISTRY_IMAGE/api:$CI_COMMIT_REF_SLUG
   script:
     - cd habit-kicker-rails
-    - docker build -t registry.gitlab.com/randydavidl78/habit-kicker/api:ci_$CI_COMMIT_SHORT_SHA .
-    - docker push registry.gitlab.com/randydavidl78/habit-kicker/api:ci_$CI_COMMIT_SHORT_SHA
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker build -t $IMAGE_TAG .
+    - docker push $IMAGE_TAG
 
 
 
