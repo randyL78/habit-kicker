@@ -76,4 +76,4 @@ CYPRESS:
     - docker:20.10.16-dind
   stage: commit
   script:
-    - docker compose -f docker-compose.ci.yml up
+    - docker compose -f docker-compose.ci.yml up --exit-code-from cypress
