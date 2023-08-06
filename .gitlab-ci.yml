@@ -4,6 +4,7 @@ default:
 
 stages:
   - commit
+  - acceptance
   - deploy-staging
   - deploy-production
 
@@ -68,3 +69,12 @@ CLIENT_DEPLOY_PRODUCTION:
     - *assume_role
     - aws s3 sync client/build s3://${S3_BUCKET}/production
     - aws cloudfront create-invalidation --distribution-id ${STAGING_DISTRIBUTION_ID} --paths "/index.html"
+
+CYPRESS:
+  image: docker:20.10.16
+  services:
+    - docker:20.10.16-dind
+  stage: acceptance
+  script:
+    - docker compose up
+
