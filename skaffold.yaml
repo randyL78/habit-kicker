@@ -3,6 +3,8 @@ kind: Config
 metadata:
   name: habit-kicker
 build:
+  local:
+    push: false
   artifacts:
     - image: registry.gitlab.com/randydavidl78/habit-kicker/api
       context: habit-kicker-rails
