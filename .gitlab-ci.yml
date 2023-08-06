@@ -76,5 +76,7 @@ CYPRESS:
     - docker:20.10.16-dind
   stage: acceptance
   script:
-    - docker compose up
+    - docker compose -f docker-compose.ci.yml up -d
+    - ./ci/test_api_up.sh
+    - docker compose stop
 

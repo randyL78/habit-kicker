@@ -9,24 +9,12 @@ services:
       - api
     ports:
       - '8080:80'
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost" ]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 20s
 
   client:
     build: client/.
     volumes:
       - /app/node_modules
       - ./client:/app
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:3000" ]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 20s
 
   postgres:
     image: postgres
@@ -47,19 +35,10 @@ services:
       - DB_HOST=postgres
     volumes:
       - ./habit-kicker-rails:/usr/src/app
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:5000" ]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 20s
+    ports:
+      - '5000:5000'
 
   cypress:
     build: acceptance_tests
     depends_on:
-      nginx:
-        condition: service_healthy
-      api:
-        condition: service_healthy
-      client:
-        condition: service_healthy
+      - nginx
