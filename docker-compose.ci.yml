@@ -34,9 +34,7 @@ services:
         condition: service_healthy
     environment:
       - RAILS_DEVELOPMENT_HOSTS=api
-      - DB_USER=postgres
-      - DB_PASSWORD=postgres_password
-      - DB_HOST=postgres
+      - DATABASE_URL=postgres://postgres:postgres_password@postgres:5432
     volumes:
       - ./habit-kicker-rails:/usr/src/app
     ports:
