@@ -58,7 +58,6 @@ CLIENT_BUILD_CONTAINER:
   before_script:
     - cd client
 
-
 CLIENT_DEPLOY_STAGING:
   image:
     name: amazon/aws-cli:latest
@@ -72,6 +71,8 @@ CLIENT_DEPLOY_STAGING:
     - *assume_role
     - aws s3 sync client/build s3://${S3_BUCKET}/staging
     - aws cloudfront create-invalidation --distribution-id ${STAGING_DISTRIBUTION_ID} --paths "/index.html"
+  needs:
+    - CYPRESS
 
 CLIENT_DEPLOY_PRODUCTION:
   image:
@@ -116,6 +117,20 @@ CLEANUP_CI_DOCKER_IMAGES:
     - ./reg rm -d --auth-url $CI_REGISTRY -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY_IMAGE/api:$CI_COMMIT_SHORT_SHA
     - ./reg rm -d --auth-url $CI_REGISTRY -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY_IMAGE/client:$CI_COMMIT_SHORT_SHA
   when: always
+
+CYPRESS:
+  stage: acceptance
+  variables:
+    DATABASE_URL: postgres:postgres//postgres:postgres_password@postgres:5432
+    POSTGRES_PASSWORD: postgres_password
+  services:
+    - $CI_REGISTRY_IMAGE/api:$CI_COMMIT_SHORT_SHA
+    - $CI_REGISTRY_IMAGE/client:$CI_COMMIT_SHORT_SHA
+    - postgres
+    - $CI_REGISTRY_IMAGE/nginx:$CI_COMMIT_SHORT_SHA
+  script:
+    - echo hello cypress
+
 
 
 # CYPRESS:
