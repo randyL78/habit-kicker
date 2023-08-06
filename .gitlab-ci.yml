@@ -97,7 +97,7 @@ NGINX_BUILD:
   variables:
     IMAGE_TAG: $CI_REGISTRY_IMAGE/nginx
   only:
-    - changes:
+    changes:
       - nginx/*
 
 CLEANUP_CI_DOCKER_IMAGES:
