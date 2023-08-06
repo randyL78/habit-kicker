@@ -120,6 +120,7 @@ CLEANUP_CI_DOCKER_IMAGES:
 
 CYPRESS:
   stage: acceptance
+  image: cypress/browsers:node18.12.0-chrome107
   variables:
     DATABASE_URL: postgres:postgres//postgres:postgres_password@postgres:5432
     POSTGRES_PASSWORD: postgres_password
@@ -127,16 +128,7 @@ CYPRESS:
     - $CI_REGISTRY_IMAGE/api:$CI_COMMIT_SHORT_SHA
     - $CI_REGISTRY_IMAGE/client:$CI_COMMIT_SHORT_SHA
     - postgres
-    - $CI_REGISTRY_IMAGE/nginx:$CI_COMMIT_SHORT_SHA
+    - name: $CI_REGISTRY_IMAGE/nginx:$CI_COMMIT_SHORT_SHA
+      command: ["rails", "db:setup", "&&", "rails", "server", "-b", "0.0.0.0", "-p", "5000"]
   script:
     - echo hello cypress
-
-
-
-# CYPRESS:
-#  image: docker:20.10.16
-#  services:
-#    - docker:20.10.16-dind
-#  stage: commit
-#  script:
-#    - docker compose -f docker-compose.ci.yml up --exit-code-from cypress
