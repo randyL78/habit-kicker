@@ -96,10 +96,9 @@ NGINX_BUILD:
   <<: *build_containers
   variables:
     IMAGE_TAG: $CI_REGISTRY_IMAGE/nginx
-  rules:
+  only:
     - changes:
-        paths:
-          - nginx
+      - nginx/*
 
 CLEANUP_CI_DOCKER_IMAGES:
   image: curlimages/curl:7.86.0
