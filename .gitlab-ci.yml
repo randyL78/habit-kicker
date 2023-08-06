@@ -76,7 +76,7 @@ BUILD_API:
     - docker:20.10.16-dind
   stage: commit
   variables:
-    IMAGE_TAG: $CI_REGISTRY_IMAGE/api:$CI_COMMIT_REF_SLUG
+    IMAGE_TAG: $CI_REGISTRY_IMAGE/api:$CI_COMMIT_SHORT_SHA
   script:
     - cd habit-kicker-rails
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
@@ -87,7 +87,7 @@ CLEANUP_CI_DOCKER_IMAGES:
   image: curlimages/curl:7.86.0
   stage: cleanup
   variables:
-    IMAGE_TAG: $CI_REGISTRY_IMAGE/api:$CI_COMMIT_REF_SLUG
+    IMAGE_TAG: $CI_REGISTRY_IMAGE/api:$CI_COMMIT_SHORT_SHA
     REG_SHA256: ade837fc5224acd8c34732bf54a94f579b47851cc6a7fd5899a98386b782e228
     REG_VERSION: 0.16.1
   before_script:
