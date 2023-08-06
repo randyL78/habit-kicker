@@ -1,6 +1,6 @@
 default:
   interruptible: true
-  timeout: 1 hour
+  timeout: 30 minutes
 
 stages:
   - commit
@@ -76,10 +76,11 @@ CYPRESS:
     - docker:20.10.16-dind
   stage: commit
   script:
-#    - docker compose -f docker-compose.ci.yml up -d
-    - ls
-    - ls ci
+    - docker compose -f docker-compose.ci.yml up nginx -d
     - chmod +x ci/test_api_up.sh
     - . ci/test_api_up.sh
-#    - docker compose stop
+    - docker compose exec api rails db:create && rails db:migrate
+    - docker compose
+    - docker compose -f docker-compose.ci.yml up cypress
+    - docker compose down
 
