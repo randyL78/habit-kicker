@@ -71,8 +71,6 @@ CLIENT_DEPLOY_STAGING:
     - *assume_role
     - aws s3 sync client/build s3://${S3_BUCKET}/staging
     - aws cloudfront create-invalidation --distribution-id ${STAGING_DISTRIBUTION_ID} --paths "/index.html"
-  needs:
-    - CYPRESS
 
 CLIENT_DEPLOY_PRODUCTION:
   image:
@@ -118,17 +116,17 @@ CLEANUP_CI_DOCKER_IMAGES:
     - ./reg rm -d --auth-url $CI_REGISTRY -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY_IMAGE/client:$CI_COMMIT_SHORT_SHA
   when: always
 
-CYPRESS:
-  stage: acceptance
-  image: cypress/browsers:node18.12.0-chrome107
-  variables:
-    DATABASE_URL: postgres:postgres//postgres:postgres_password@postgres:5432
-    POSTGRES_PASSWORD: postgres_password
-  services:
-    - $CI_REGISTRY_IMAGE/api:$CI_COMMIT_SHORT_SHA
-    - $CI_REGISTRY_IMAGE/client:$CI_COMMIT_SHORT_SHA
-    - postgres
-    - name: $CI_REGISTRY_IMAGE/nginx:$CI_COMMIT_SHORT_SHA
-      command: ["rails", "db:setup", "&&", "rails", "server", "-b", "0.0.0.0", "-p", "5000"]
-  script:
-    - echo hello cypress
+#CYPRESS:
+#  stage: acceptance
+#  image: cypress/browsers:node18.12.0-chrome107
+#  variables:
+#    DATABASE_URL: postgres:postgres//postgres:postgres_password@postgres:5432
+#    POSTGRES_PASSWORD: postgres_password
+#  services:
+#    - $CI_REGISTRY_IMAGE/api:$CI_COMMIT_SHORT_SHA
+#    - $CI_REGISTRY_IMAGE/client:$CI_COMMIT_SHORT_SHA
+#    - postgres
+#    - name: $CI_REGISTRY_IMAGE/nginx:$CI_COMMIT_SHORT_SHA
+#      command: ["rails", "db:setup", "&&", "rails", "server", "-b", "0.0.0.0", "-p", "5000"]
+#  script:
+#    - echo hello cypress
