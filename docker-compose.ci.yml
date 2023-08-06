@@ -23,11 +23,17 @@ services:
       - POSTGRES_PASSWORD=postgres_password
     ports:
       - '5432:5432'
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   api:
     build: habit-kicker-rails
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
     environment:
       - RAILS_DEVELOPMENT_HOSTS=api
       - DB_USER=postgres
@@ -42,3 +48,5 @@ services:
     build: acceptance_tests
     depends_on:
       - nginx
+      - api
+      - client

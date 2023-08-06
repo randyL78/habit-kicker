@@ -7,4 +7,9 @@ RUN npm install
 
 COPY . .
 
+RUN npm install -g wait-on
+
+RUN wait on api:5000
+RUN wait on client:3000
+
 CMD ["npx",  "cypress", "run", "-",  "browser chrome", "-",  "headless"]
