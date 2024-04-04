@@ -39,16 +39,28 @@ CLIENT_UNIT_TEST:
     - npm install
     - CI=true npm test
 
+#CLIENT_BUILD:
+#  image: node:20-alpine
+#  stage: commit
+#  script:
+#    - cd client
+#    - npm install
+#    - npm run build
+#  artifacts:
+#    paths:
+#      - client/build
+#    when: on_success
+
 CLIENT_BUILD:
   image: node:20-alpine
   stage: commit
   script:
-    - cd client
+    - cd client-vite
     - npm install
     - npm run build
   artifacts:
     paths:
-      - client/build
+      - client/dist
     when: on_success
 
 CLIENT_BUILD_CONTAINER:

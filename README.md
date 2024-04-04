@@ -34,6 +34,6 @@ docker compose up
 
 Habit-Kicker uses Nginx to handle request routing between the client and the
 API. This is to make sure that the local environment matches production as 
-close as possible Nginx is configured to run on port 8080.
+close as possible. Nginx is configured to run on port 8080.
 
 In a browser, visit http://localhost:8080
