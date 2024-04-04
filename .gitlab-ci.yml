@@ -81,7 +81,7 @@ CLIENT_DEPLOY_STAGING:
   stage: acceptance
   script:
     - *assume_role
-    - aws s3 sync client/build s3://${S3_BUCKET}/staging
+    - aws s3 sync client/dist s3://${S3_BUCKET}/staging
     - aws cloudfront create-invalidation --distribution-id ${STAGING_DISTRIBUTION_ID} --paths "/index.html"
 
 CLIENT_DEPLOY_PRODUCTION:
@@ -96,7 +96,7 @@ CLIENT_DEPLOY_PRODUCTION:
   when: manual
   script:
     - *assume_role
-    - aws s3 sync client/build s3://${S3_BUCKET}/production
+    - aws s3 sync client/dist s3://${S3_BUCKET}/production
     - aws cloudfront create-invalidation --distribution-id ${STAGING_DISTRIBUTION_ID} --paths "/index.html"
 
 API_BUILD:
