@@ -39,28 +39,16 @@ CLIENT_UNIT_TEST:
     - npm install
     - CI=true npm test
 
-#CLIENT_BUILD:
-#  image: node:20-alpine
-#  stage: commit
-#  script:
-#    - cd client
-#    - npm install
-#    - npm run build
-#  artifacts:
-#    paths:
-#      - client/build
-#    when: on_success
-
 CLIENT_BUILD:
   image: node:20-alpine
   stage: commit
   script:
-    - cd client-vite
+    - cd client
     - npm install
     - npm run build
   artifacts:
     paths:
-      - client-vite/dist
+      - client/dist
     when: on_success
 
 CLIENT_BUILD_CONTAINER:
@@ -81,7 +69,7 @@ CLIENT_DEPLOY_STAGING:
   stage: acceptance
   script:
     - *assume_role
-    - aws s3 sync client-vite/dist s3://${S3_BUCKET}/staging
+    - aws s3 sync client/dist s3://${S3_BUCKET}/staging
     - aws cloudfront create-invalidation --distribution-id ${STAGING_DISTRIBUTION_ID} --paths "/index.html"
 
 CLIENT_DEPLOY_PRODUCTION:
@@ -96,7 +84,7 @@ CLIENT_DEPLOY_PRODUCTION:
   when: manual
   script:
     - *assume_role
-    - aws s3 sync client-vite/dist s3://${S3_BUCKET}/production
+    - aws s3 sync client/dist s3://${S3_BUCKET}/production
     - aws cloudfront create-invalidation --distribution-id ${STAGING_DISTRIBUTION_ID} --paths "/index.html"
 
 API_BUILD:

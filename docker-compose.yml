@@ -28,6 +28,13 @@ services:
       retries: 3
       start_period: 20s
 
+  client-vite:
+    build: client-vite/.
+    volumes:
+      - /app/node_modules
+      - ./client-vite:/app
+    ports:
+      -
   postgres:
     image: postgres
     restart: always
