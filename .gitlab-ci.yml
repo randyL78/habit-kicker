@@ -35,7 +35,7 @@ CLIENT_UNIT_TEST:
   image: node:20-alpine
   stage: commit
   script:
-    - cd client
+    - cd client-vite
     - npm install
     - CI=true npm test
 
@@ -56,7 +56,7 @@ CLIENT_BUILD_CONTAINER:
   variables:
     IMAGE_TAG: $CI_REGISTRY_IMAGE/client:$CI_COMMIT_SHORT_SHA
   before_script:
-    - cd client
+    - cd client-vite
 
 CLIENT_DEPLOY_STAGING:
   image:
