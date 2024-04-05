@@ -3,7 +3,7 @@ services:
     build: nginx/.
     restart: always
     depends_on:
-      - client
+      - client-vite
       - api
     ports:
       - '8080:80'
@@ -14,11 +14,11 @@ services:
       retries: 3
       start_period: 20s
 
-  client:
-    build: client/.
+  client-vite:
+    build: client-vite/.
     volumes:
       - /app/node_modules
-      - ./client:/app
+      - ./client-vite:/app
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:3000" ]
       interval: 30s
@@ -31,8 +31,6 @@ services:
     restart: always
     environment:
       - POSTGRES_PASSWORD=postgres_password
-    ports:
-      - '5444:5432'
 
   api:
     build: habit-kicker-rails
@@ -41,8 +39,11 @@ services:
     environment:
       - RAILS_DEVELOPMENT_HOSTS=api
       - DATABASE_URL=postgres:postgres//postgres:postgres_password@postgres:5432
+      - PIDFILE=/tmp/pids/server.pid
     volumes:
       - ./habit-kicker-rails:/usr/src/app
+    tmpfs:
+      - /tmp/pids/
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:5000" ]
       interval: 30s
@@ -57,5 +58,5 @@ services:
         condition: service_healthy
       api:
         condition: service_healthy
-      client:
+      client-vite:
         condition: service_healthy
