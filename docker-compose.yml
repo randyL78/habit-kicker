@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   nginx:
     build: nginx/.
@@ -28,20 +26,13 @@ services:
       retries: 3
       start_period: 20s
 
-  client-vite:
-    build: client-vite/.
-    volumes:
-      - /app/node_modules
-      - ./client-vite:/app
-    ports:
-      -
   postgres:
     image: postgres
     restart: always
     environment:
       - POSTGRES_PASSWORD=postgres_password
     ports:
-      - '5432:5432'
+      - '5444:5432'
 
   api:
     build: habit-kicker-rails
