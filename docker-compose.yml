@@ -7,56 +7,31 @@ services:
       - api
     ports:
       - '8080:80'
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost" ]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 20s
 
   client-vite:
     build: client-vite/.
     volumes:
       - /app/node_modules
       - ./client-vite:/app
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:3000" ]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 20s
 
-  postgres:
+  db:
     image: postgres
     restart: always
     environment:
       - POSTGRES_PASSWORD=postgres_password
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
 
   api:
-    build: habit-kicker-rails
+    build: api
     depends_on:
-      - postgres
+      - db
+    links:
+      - db
     environment:
       - RAILS_DEVELOPMENT_HOSTS=api
-      - DATABASE_URL=postgres:postgres//postgres:postgres_password@postgres:5432
       - PIDFILE=/tmp/pids/server.pid
     volumes:
-      - ./habit-kicker-rails:/usr/src/app
+      - ./api:/usr/src/app
     tmpfs:
       - /tmp/pids/
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:5000" ]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 20s
-
-  cypress:
-    build: acceptance_tests
-    depends_on:
-      nginx:
-        condition: service_healthy
-      api:
-        condition: service_healthy
-      client-vite:
-        condition: service_healthy
