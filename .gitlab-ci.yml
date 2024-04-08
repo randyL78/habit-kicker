@@ -85,7 +85,7 @@ CLIENT_DEPLOY_PRODUCTION:
   script:
     - *assume_role
     - aws s3 sync client-vite/dist s3://${S3_BUCKET}/production
-    - aws cloudfront create-invalidation --distribution-id ${STAGING_DISTRIBUTION_ID} --paths "/index.html"
+    - aws cloudfront create-invalidation --distribution-id ${PRODUCTION_DISTRIBUTION_ID} --paths "/index.html"
 
 API_BUILD:
   <<: *build_containers
