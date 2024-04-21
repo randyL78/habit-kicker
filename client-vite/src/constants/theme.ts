@@ -1,5 +1,5 @@
 export enum theme {
-  Flat,
-  Outline,
-  Gradient
+  Flat= 'flat',
+  Outline = 'outline',
+  Pill = 'pill'
 }

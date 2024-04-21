@@ -4,28 +4,52 @@ import {themeColor} from "@/constants/themeColors.ts";
 import {theme} from "@/constants/theme.ts";
 
 export default function Link(props: linkProps) {
-  let className = [classes.Link];
-
-  switch (props.theme) {
-    case theme.Outline:
-      className.push(classes.Outline)
-      break
-    case theme.Flat:
-      className.push(classes.Flat)
-      break
-    case theme.Gradient:
-      className.push(classes.Gradient)
-      break
-    case undefined:
-      break
-    default:
-      throw new Error(`Unknown theme: ${props.theme}`)
-  }
-
+  const className = [classes.Link];
+  className.push(themeClassName(props.theme))
+  className.push(colorClassName(props.themeColor))
 
   return (
     <RouterLink className={className.join(' ')} {...props} />
   )
+}
+
+const themeClassName = (themeType: theme | undefined) => {
+  switch (themeType) {
+    case theme.Flat:
+      return classes.Flat
+    case theme.Outline:
+      return classes.Outline
+    case theme.Pill:
+      return classes.Pill
+    case undefined:
+      return classes.Default
+    default:
+      throw new Error(`Unknown theme: ${themeType}`)
+  }
+}
+
+const colorClassName = (color: themeColor | undefined) => {
+  switch (color) {
+    case themeColor.Primary:
+      return classes.Primary
+    case themeColor.Secondary:
+      return classes.Secondary
+    case themeColor.Success:
+      return classes.Success
+    case themeColor.Info:
+      return classes.Info
+    case themeColor.Warning:
+      return classes.Warning
+    case themeColor.Danger:
+      return classes.Danger
+    case themeColor.Light:
+    case undefined:
+      return classes.Light
+    case themeColor.Dark:
+      return classes.Dark
+    default:
+      throw new Error(`Unknown theme color: ${color}`)
+  }
 }
 
 interface linkProps extends LinkProps {

@@ -17,5 +17,5 @@ export default function NavBar({title, children}: navBarProps) {
 
 type navBarProps = {
   title?: string
-  children: ReactNode[] | ReactNode
+  children?: ReactNode[] | ReactNode
 }
