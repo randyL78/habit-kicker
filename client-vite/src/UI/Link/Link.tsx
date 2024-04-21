@@ -8,9 +8,7 @@ export default function Link(props: linkProps) {
   className.push(themeClassName(props.theme))
   className.push(colorClassName(props.themeColor))
 
-  return (
-    <RouterLink className={className.join(' ')} {...props} />
-  )
+  return <RouterLink className={className.join(' ')} {...props} />
 }
 
 const themeClassName = (themeType: theme | undefined) => {

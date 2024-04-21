@@ -19,6 +19,10 @@
 }
 
 .Link.Dark:hover::after {
+    background-color: rgba(255,255,255,0.2);
+}
+
+.Link:active::after {
     content: '';
     border-radius: 5px;
     position: absolute;
@@ -26,7 +30,11 @@
     left: 0;
     bottom: 0;
     right: 0;
-    background-color: rgba(255,255,255,0.2);
+    background-color: rgba(0,0,0,0.4);
+}
+
+.Link.Dark:active::after {
+    background-color: rgba(255,255,255,0.4);
 }
 
 .Outline {
