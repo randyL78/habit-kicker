@@ -1,12 +1,19 @@
 import './App.css'
+import {createBrowserRouter, RouterProvider} from "react-router-dom";
+import Home from "@/components/Home";
+import {routes} from "@/constants/routes.ts";
+
+const router = createBrowserRouter([
+  {
+    path: routes.Home,
+    element: <Home />
+  }
+])
 
 function App() {
 
   return (
-    <div className="App">
-      <h1>Habit Kicker</h1>
-      <p>Here to help you kick that habit!</p>
-    </div>
+    <RouterProvider router={router} />
   )
 }
 

@@ -1,0 +1,21 @@
+.Link {
+    font-weight: bold;
+    color: var(--light);
+    padding: .75rem;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.Link:hover {
+    color: #999999;
+}
+
+.Outline {
+    border: 2px solid var(--light);
+    border-radius: 3px;
+}
+
+.Outline:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: var(--light);
+}

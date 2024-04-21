@@ -1,0 +1,15 @@
+.NavBar {
+    color: var(--light);
+    background-color: var(--dark);
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.Container {
+    max-width: var(--max_container_width);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: auto;
+}
+

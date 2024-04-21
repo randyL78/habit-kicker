@@ -1,0 +1,4 @@
+.Container {
+    margin: auto;
+    max-width: var(--max_container_width);
+}
