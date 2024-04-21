@@ -1,6 +1,6 @@
 .NavBar {
     color: var(--light);
-    background-color: var(--dark);
+    background-color: var(--fjord);
     padding-left: 1rem;
     padding-right: 1rem;
 }
