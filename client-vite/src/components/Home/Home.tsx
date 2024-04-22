@@ -1,16 +1,11 @@
 import classes from "./Home.module.css";
-import NavBar from "@/UI/NavBar";
-import Container from "@/UI/Container";
-import Link from "@/UI/Link/Link.tsx";
-import {routes} from "@/constants/routes.ts";
-import {theme} from "@/constants/theme.ts";
+import Container from "@/components/UI/Container";
+import {Outlet} from "react-router-dom";
 
 export default function Home() {
   return (
     <div className={classes.Home}>
-      <NavBar title='Habit Kicker'>
-       <Link to={routes.Home} theme={theme.Outline}>Log In</Link>
-      </NavBar>
+      <Outlet />
       <Container>
         <p>Here to help you kick that habit!</p>
       </Container>

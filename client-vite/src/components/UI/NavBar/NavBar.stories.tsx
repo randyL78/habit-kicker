@@ -1,7 +1,7 @@
-import NavBar from "@/UI/NavBar/index.ts";
+import NavBar from "./NavBar.tsx";
 import {MemoryRouter} from "react-router-dom";
 import {Meta, StoryObj} from "@storybook/react";
-import Link from "@/UI/Link";
+import Link from "@/components/UI/Link";
 import {theme} from "@/constants/theme.ts";
 
 const meta = {

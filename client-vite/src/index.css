@@ -17,6 +17,7 @@
   /* Rgb conversions to be able to use alpha */
   --rgb_fjord: 68, 82, 105;
   --rgb_rum: 133, 102, 132;
+  --rgb_martinique: 54, 50, 92;
 
   /* Theme color values */
   --primary: var(--danube);

@@ -1,21 +1,22 @@
 import {ReactNode} from "react";
 
 import classes from "./NavBar.module.css";
+import Header from "@/components/UI/Header";
 
 export default function NavBar({title, children}: navBarProps) {
   return (
-    <header className={classes.NavBar}>
+    <Header>
       <div className={classes.Container}>
         <h1>{title}</h1>
         <nav>
           {children}
         </nav>
       </div>
-    </header>
+    </Header>
   )
 }
 
 type navBarProps = {
-  title?: string
+  title: string | ReactNode;
   children?: ReactNode[] | ReactNode
 }

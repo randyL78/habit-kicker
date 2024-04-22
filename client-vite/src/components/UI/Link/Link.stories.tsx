@@ -1,5 +1,5 @@
 import {StoryObj, Meta} from "@storybook/react";
-import Link from "@/UI/Link";
+import Link from "./Link.tsx";
 import {themeColor} from "@/constants/themeColors.ts";
 import {MemoryRouter} from "react-router-dom";
 import {theme} from "@/constants/theme.ts";

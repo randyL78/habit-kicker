@@ -1,0 +1,30 @@
+.Background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 10, 0.55);
+}
+
+.Modal {
+    margin: 15rem auto;
+    min-width: 25rem;
+    max-width: 50rem;
+    width: 33%;
+    min-height: 5rem;
+    background-color: var(--light);
+    border-radius: 8px;
+    box-shadow: 0 1px 8px rgba(0, 0, 10, 0.6);
+}
+
+.Modal header {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.Title {
+    font-weight: bold;
+    text-align: center;
+    flex: 1;
+}
