@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
+  root 'home#index'
+
   namespace :api do
-    resources :home, only: [:index]
+    root 'home#index'
   end
 end
