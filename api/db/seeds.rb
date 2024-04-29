@@ -5,3 +5,10 @@
 #
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
+
+User.create(
+  email: 'admin@habitkicker.net',
+  password: ENV.fetch('ADMIN_PASSWORD'),
+  first_name: 'Admin',
+  last_name: 'User',
+)

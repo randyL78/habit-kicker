@@ -1,0 +1,22 @@
+.Input {
+    display: flex;
+    border: 1px solid var(--dark);
+    border-radius: 5px;
+    padding: 1px;
+    margin-top: .5rem;
+    position: relative;
+    background-color: var(--light);
+}
+
+.Input input {
+    padding: 0.25rem;
+    flex: 1;
+    border: none;
+    outline: none;
+    margin: 0;
+    font-size: 1.2rem;
+    background-color: white;
+    border-radius: 5px;
+}
+
+
