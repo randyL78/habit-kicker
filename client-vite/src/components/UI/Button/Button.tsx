@@ -1,18 +1,18 @@
-import {Link as RouterLink, LinkProps} from "react-router-dom";
-import classes from './Link.module.css'
-import {themeColor} from "@/constants/themeColors.ts";
+import classes from './Button.module.css'
+import {ButtonHTMLAttributes} from 'react'
 import {theme} from "@/constants/theme.ts";
+import {themeColor} from "@/constants/themeColors.ts";
 
-export default function Link(props: linkProps) {
-  const className = [classes.Link];
+export default function Button(props: buttonProps) {
+  const className = [classes.Button];
   className.push(themeClassName(props.theme))
   className.push(colorClassName(props.themeColor))
 
-  const linkProps = {...props}
-  delete linkProps.themeColor
-  delete linkProps.theme
+  const buttonProps = {...props}
+  delete buttonProps.themeColor
+  delete buttonProps.theme
 
-  return <RouterLink className={className.join(' ')} {...linkProps} />
+  return <button className={className.join(' ')} {...buttonProps} />
 }
 
 const themeClassName = (themeType: theme | undefined) => {
@@ -54,11 +54,7 @@ const colorClassName = (color: themeColor | undefined) => {
   }
 }
 
-interface linkProps extends LinkProps {
+interface buttonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   theme?: theme,
-  themeColor?: themeColor,
+  themeColor?: themeColor
 }
-
-
-
-
