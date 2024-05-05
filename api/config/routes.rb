@@ -13,10 +13,12 @@ Rails.application.routes.draw do
                  sessions: 'api/sessions',
                  registrations: 'api/registrations'
                },
-               defaults: {format: :json}
+               defaults: { format: :json }
   end
 
   namespace :api do
     root 'home#index'
+
+    resources :current_user, only: %i[index]
   end
 end

@@ -5,7 +5,7 @@ describe 'User Authentication', type: :request do
 
   before(:each) do
     @path = '/users'
-    @headers = { 'ACCEPT': 'application/json' }
+    @headers = { ACCEPT: 'application/json' }
   end
 
   describe 'Create a user' do
@@ -21,13 +21,9 @@ describe 'User Authentication', type: :request do
     end
 
     it 'returns an "OK" status code' do
-      post '/users', params: params, headers: headers
+      post('/users', params:, headers:)
 
       expect(response).to have_http_status :ok
     end
-  end
-
-  it 'tells the truth' do
-    expect(true).to be true
   end
 end

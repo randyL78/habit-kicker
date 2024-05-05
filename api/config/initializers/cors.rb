@@ -10,8 +10,8 @@ Rails.application.config.middleware.insert_before 0, Rack::Cors do
     # Change this when out of development
     origins '*'
     resource '/api/*',
-      headers: %w(Authorization),
-      methods: [:get, :post, :put, :patch, :delete, :options, :head],
-      expose: %w(Authorization)
+             headers: %w[Authorization],
+             methods: %i[get post put patch delete options head],
+             expose: %w[Authorization]
   end
 end

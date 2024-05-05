@@ -50,6 +50,8 @@ CLIENT_BUILD:
     paths:
       - client-vite/dist
     when: on_success
+  variables:
+    VITE_API_URL: 'https://api.staging.habitkicker.net'
 
 CLIENT_DEPLOY_STAGING:
   image:

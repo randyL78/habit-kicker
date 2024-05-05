@@ -11,13 +11,13 @@ class User < ApplicationRecord
     "#{first_name} #{last_name}"
   end
 
-  def serializable_hash(options = nil)
+  def serializable_hash(_options = nil)
     {
       id:,
       first_name:,
       last_name:,
       email:,
-      display_name:
+      display_name:,
     }
   end
 end

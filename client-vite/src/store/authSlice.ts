@@ -1,18 +1,16 @@
 import {createSlice} from "@reduxjs/toolkit";
-import {login} from "@/thunks/authThunk.ts";
+import {getCurrentUser, login} from "@/thunks/authThunk.ts";
 
 export interface AuthState {
   currentUser: {
     display_name?: string;
     email?: string
   };
-  token: string | null;
   loading: boolean;
 }
 
 const initialState: AuthState = {
   currentUser: {},
-  token: null,
   loading: false,
 }
 
@@ -23,11 +21,25 @@ const authSlice = createSlice({
   extraReducers: builder => {
     builder
       .addCase(login.fulfilled, (state, action) => {
-        const { accessToken, user } = action.payload
+        const { user } = action.payload
 
         state.currentUser = user
         state.loading = false
-        state.token = accessToken
+      })
+      .addCase(login.pending, (state) => {
+        state.loading = true
+      })
+      .addCase(getCurrentUser.fulfilled, (state, action) => {
+        state.currentUser = action.payload
+
+        state.loading = false
+      })
+      .addCase(getCurrentUser.pending, (state) => {
+        state.loading = true
+      })
+      .addCase(getCurrentUser.rejected, (state) => {
+        state.currentUser = {}
+        state.loading = false
       })
   }
 })

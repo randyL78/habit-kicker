@@ -5,6 +5,7 @@ import {routes} from "@/constants/routes.ts";
 import Layout from "@/components/Layout";
 import AuthModal from "@/components/AuthModal";
 import Dashboard from "@/components/Dashboard";
+import {Protected} from "@/components/AccessControl";
 
 const router = createBrowserRouter([
   {
@@ -23,7 +24,7 @@ const router = createBrowserRouter([
       },
       {
         path: routes.Dashboard,
-        element: <Dashboard />
+        element: <Protected><Dashboard /></Protected>
       }
     ]
   }

@@ -10,5 +10,5 @@ User.create(
   email: 'admin@habitkicker.net',
   password: ENV.fetch('ADMIN_PASSWORD'),
   first_name: 'Admin',
-  last_name: 'User',
+  last_name: 'User'
 )
