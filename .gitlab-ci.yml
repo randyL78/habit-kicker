@@ -82,3 +82,15 @@ CLIENT_DEPLOY_PRODUCTION:
     - aws s3 sync client-vite/dist s3://${S3_BUCKET}/production
     - aws cloudfront create-invalidation --distribution-id ${PRODUCTION_DISTRIBUTION_ID} --paths "/index.html"
 
+API_DEPLOY_STAGING:
+  image:
+    name: amazon/aws-cli:latest
+    entrypoint:
+      - '/usr/bin/env'
+  stage: acceptance
+  id_tokens:
+    ID_TOKEN:
+      aud: habit_kicker_react_s3
+  script:
+    - *assume_role
+    - aws s3 sync api s3://${API_BUCKET}/api_staging

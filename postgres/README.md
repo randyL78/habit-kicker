@@ -18,4 +18,4 @@ Currently, it is running on a `t4g.small` instance with 10GiB of storage on an E
 
 * Get the IPv4 address of the instance (Available in the AWS EC2 Dashboard)
 * Get, store, and `chmod 400` the `.pem` file in the `~/.ssh` directory, if not already there
-* Run `ssh -i ~/.ssh/habit-kicker-db ubuntu@<ip_of_instance>`
+* Run `ssh -i ~/.ssh/habit-kicker-db.pem ubuntu@<ip_of_instance>`
