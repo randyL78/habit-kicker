@@ -93,4 +93,4 @@ API_DEPLOY_STAGING:
       aud: habit_kicker_react_s3
   script:
     - *assume_role
-    - aws s3 sync api s3://${API_BUCKET}/api_staging
+    - aws s3 sync api s3://${S3_BUCKET}/api_staging
