@@ -17,4 +17,4 @@ test:
 
 production:
   <<: *default
-  database: hk/production
+  database: hk_prod

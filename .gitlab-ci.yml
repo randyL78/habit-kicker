@@ -39,7 +39,7 @@ CLIENT_UNIT_TEST:
     - npm install
     - CI=true npm test
 
-CLIENT_BUILD:
+CLIENT_BUILD_STAGING:
   image: node:20-alpine
   stage: commit
   script:
@@ -51,7 +51,7 @@ CLIENT_BUILD:
       - client-vite/dist
     when: on_success
   variables:
-    VITE_API_URL: 'https://api.staging.habitkicker.net'
+    VITE_API_URL: $STAGING_API_URL
 
 CLIENT_DEPLOY_STAGING:
   image:
