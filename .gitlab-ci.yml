@@ -5,6 +5,7 @@ default:
 stages:
   - commit
   - acceptance
+  - deploy
 
 .client_setup: &client_setup
   image: node:20-alpine
