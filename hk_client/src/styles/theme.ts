@@ -12,7 +12,7 @@ theme.palette.primary = {
 
 
 theme.typography.h1 = {
-  [theme.breakpoints.up('md')]: {
+  [theme.breakpoints.up('sm')]: {
     fontSize: '6rem',
     fontWeight: "100",
   },
