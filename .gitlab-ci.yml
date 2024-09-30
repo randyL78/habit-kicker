@@ -62,6 +62,7 @@ CLIENT__DEPLOY_STAGING:
   rules:
     - if: $CI_COMMIT_BRANCH == "production"
       when: never
+    - when: always
   script:
     - aws s3 sync hk_client/dist s3://${S3_BUCKET}/staging
     - aws cloudfront create-invalidation --distribution-id ${STAGING_DISTRIBUTION_ID} --paths "/index.html"
