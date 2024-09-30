@@ -71,7 +71,7 @@ export default function Home() {
             </Box>
           </Container>
         </Box>
-        <BottomNavigation showLabels sx={{ display: { sm: 'none' }, position: 'absolute', right: 0, left: 0, bottom: 0, backgroundColor: 'rgba(255, 255, 255, 0.4)' }}>
+        <BottomNavigation showLabels sx={{ display: { sm: 'none' }, position: 'fixed', right: 0, left: 0, bottom: 0, backgroundColor: 'rgba(255, 255, 255, 0.4)' }}>
           <BottomNavigationAction label='Sign In' icon={<Login color='primary'/>} component={RouterLink} to="/login" />
           <BottomNavigationAction label='Sign Up' icon={<AppRegistration color='primary'/>}/>
         </BottomNavigation>

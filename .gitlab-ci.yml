@@ -59,6 +59,8 @@ CLIENT__DEPLOY_STAGING:
     entrypoint:
       - '/usr/bin/env'
   stage: acceptance
+  rules:
+    - if: $CI_COMMIT_BRANCH != "production"
   script:
     - aws s3 sync hk_client/dist s3://${S3_BUCKET}/staging
     - aws cloudfront create-invalidation --distribution-id ${STAGING_DISTRIBUTION_ID} --paths "/index.html"
