@@ -1,6 +1,8 @@
 # Habit Kicker
 
-An freeware app to help users quit, or at least reduce the frequency of, a
+[![pipeline status](https://gitlab.com/randydavidl78/habit-kicker/badges/main/pipeline.svg)](https://gitlab.com/randydavidl78/occ-rose-directory/-/commits/main)
+
+A freeware app to help users quit, or at least reduce the frequency of, a
 bad habit. This is accomplished by users creating a journal entry whenever they
 think about or commit the bad habit. Details about time, location, and severity
 are also stored.
