@@ -71,5 +71,5 @@ CLIENT__DEPLOY_PRODUCTION:
   rules:
     - if: $CI_COMMIT_BRANCH == "production"
   script:
-    - aws s3 sync rose-client/dist s3://${S3_BUCKET}/production
+    - aws s3 sync hk_client/dist s3://${S3_BUCKET}/production
     - aws cloudfront create-invalidation --distribution-id ${PRODUCTION_DISTRIBUTION_ID} --paths "/index.html"
