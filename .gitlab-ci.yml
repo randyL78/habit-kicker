@@ -20,7 +20,7 @@ ASSUME_ROLE:
       - '/usr/bin/env'
   id_tokens:
     ID_TOKEN:
-      aud: rose_directory
+      aud: habit_kicker_react_s3
   script:
     - >
       STS=($(aws sts assume-role-with-web-identity
