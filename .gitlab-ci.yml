@@ -1,96 +1,96 @@
-default:
-  interruptible: true
-  timeout: 30 minutes
-
-stages:
-  - commit
-  - acceptance
-  - deploy
-  - cleanup
-
-.assume_role: &assume_role
-  - >
-    STS=($(aws sts assume-role-with-web-identity
-    --role-arn ${AWS_ROLE_ARN}
-    --role-session-name "GitLabRunner-${CI_PROJECT_ID}-${CI_PIPELINE_ID}"
-    --web-identity-token $ID_TOKEN
-    --duration-seconds 3600
-    --query 'Credentials.[AccessKeyId,SecretAccessKey,SessionToken]'
-    --output text))
-  - export AWS_ACCESS_KEY_ID="${STS[0]}"
-  - export AWS_SECRET_ACCESS_KEY="${STS[1]}"
-  - export AWS_SESSION_TOKEN="${STS[2]}"
-
-.build_containers: &build_containers
-  image: docker:20.10.16
-  services:
-    - docker:20.10.16-dind
-  stage: commit
-  script:
-    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-    - docker build -t $IMAGE_TAG .
-    - docker push $IMAGE_TAG
-
-CLIENT_UNIT_TEST:
-  image: node:20-alpine
-  stage: commit
-  script:
-    - cd client-vite
-    - npm install
-    - CI=true npm test
-
-CLIENT_BUILD_STAGING:
-  image: node:20-alpine
-  stage: commit
-  script:
-    - cd client-vite
-    - npm install
-    - npm run build
-  artifacts:
-    paths:
-      - client-vite/dist
-    when: on_success
-  variables:
-    VITE_API_URL: $STAGING_API_URL
-
-CLIENT_DEPLOY_STAGING:
-  image:
-    name: amazon/aws-cli:latest
-    entrypoint:
-      - '/usr/bin/env'
-  id_tokens:
-    ID_TOKEN:
-      aud: habit_kicker_react_s3
-  stage: acceptance
-  script:
-    - *assume_role
-    - aws s3 sync client-vite/dist s3://${S3_BUCKET}/staging
-    - aws cloudfront create-invalidation --distribution-id ${STAGING_DISTRIBUTION_ID} --paths "/index.html"
-
-CLIENT_DEPLOY_PRODUCTION:
-  image:
-    name: amazon/aws-cli:latest
-    entrypoint:
-      - '/usr/bin/env'
-  id_tokens:
-    ID_TOKEN:
-      aud: habit_kicker_react_s3
-  stage: deploy
-  when: manual
-  script:
-    - *assume_role
-    - aws s3 sync client-vite/dist s3://${S3_BUCKET}/production
-    - aws cloudfront create-invalidation --distribution-id ${PRODUCTION_DISTRIBUTION_ID} --paths "/index.html"
-
-API_DEPLOY_STAGING:
-  image:
-    name: amazon/aws-cli:latest
-    entrypoint:
-      - '/usr/bin/env'
-  stage: acceptance
-  id_tokens:
-    ID_TOKEN:
-      aud: habit_kicker_react_s3
-  script:
-    - *assume_role
-    - aws s3 sync api s3://${S3_BUCKET}/api_staging
+#default:
+#  interruptible: true
+#  timeout: 30 minutes
+#
+#stages:
+#  - commit
+#  - acceptance
+#  - deploy
+#  - cleanup
+#
+#.assume_role: &assume_role
+#  - >
+#    STS=($(aws sts assume-role-with-web-identity
+#    --role-arn ${AWS_ROLE_ARN}
+#    --role-session-name "GitLabRunner-${CI_PROJECT_ID}-${CI_PIPELINE_ID}"
+#    --web-identity-token $ID_TOKEN
+#    --duration-seconds 3600
+#    --query 'Credentials.[AccessKeyId,SecretAccessKey,SessionToken]'
+#    --output text))
+#  - export AWS_ACCESS_KEY_ID="${STS[0]}"
+#  - export AWS_SECRET_ACCESS_KEY="${STS[1]}"
+#  - export AWS_SESSION_TOKEN="${STS[2]}"
+#
+#.build_containers: &build_containers
+#  image: docker:20.10.16
+#  services:
+#    - docker:20.10.16-dind
+#  stage: commit
+#  script:
+#    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+#    - docker build -t $IMAGE_TAG .
+#    - docker push $IMAGE_TAG
+#
+#CLIENT_UNIT_TEST:
+#  image: node:20-alpine
+#  stage: commit
+#  script:
+#    - cd client-vite
+#    - npm install
+#    - CI=true npm test
+#
+#CLIENT_BUILD_STAGING:
+#  image: node:20-alpine
+#  stage: commit
+#  script:
+#    - cd client-vite
+#    - npm install
+#    - npm run build
+#  artifacts:
+#    paths:
+#      - client-vite/dist
+#    when: on_success
+#  variables:
+#    VITE_API_URL: $STAGING_API_URL
+#
+#CLIENT_DEPLOY_STAGING:
+#  image:
+#    name: amazon/aws-cli:latest
+#    entrypoint:
+#      - '/usr/bin/env'
+#  id_tokens:
+#    ID_TOKEN:
+#      aud: habit_kicker_react_s3
+#  stage: acceptance
+#  script:
+#    - *assume_role
+#    - aws s3 sync client-vite/dist s3://${S3_BUCKET}/staging
+#    - aws cloudfront create-invalidation --distribution-id ${STAGING_DISTRIBUTION_ID} --paths "/index.html"
+#
+#CLIENT_DEPLOY_PRODUCTION:
+#  image:
+#    name: amazon/aws-cli:latest
+#    entrypoint:
+#      - '/usr/bin/env'
+#  id_tokens:
+#    ID_TOKEN:
+#      aud: habit_kicker_react_s3
+#  stage: deploy
+#  when: manual
+#  script:
+#    - *assume_role
+#    - aws s3 sync client-vite/dist s3://${S3_BUCKET}/production
+#    - aws cloudfront create-invalidation --distribution-id ${PRODUCTION_DISTRIBUTION_ID} --paths "/index.html"
+#
+#API_DEPLOY_STAGING:
+#  image:
+#    name: amazon/aws-cli:latest
+#    entrypoint:
+#      - '/usr/bin/env'
+#  stage: acceptance
+#  id_tokens:
+#    ID_TOKEN:
+#      aud: habit_kicker_react_s3
+#  script:
+#    - *assume_role
+#    - aws s3 sync api s3://${S3_BUCKET}/api_staging

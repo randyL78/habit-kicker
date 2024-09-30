@@ -1,9 +1,0 @@
-.Container {
-    max-width: var(--max_container_width);
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: auto;
-}
-

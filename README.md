@@ -7,33 +7,8 @@ are also stored.
 
 ## Local Setup and Development
 
-### Dependencies:
-
-* Docker
-* Ruby (see habit-kicker-rails/.ruby-version for which Ruby to have installed)
-* Postgres SQL (Actual DB run through Docker, but helpful to have local version)
-
-### Setup
-
-From a terminal in the directory you want to install, run:
-
-```bash
-git clone git@gitlab.com:randydavidl78/habit-kicker.git
-cd habit-kicker
-```
-
-### Running
-
-From a terminal at the root directory of the repository
-
-```bash
-docker compose up
-```
-
-### Visiting site locally
-
-Habit-Kicker uses Nginx to handle request routing between the client and the
-API. This is to make sure that the local environment matches production as 
-close as possible. Nginx is configured to run on port 8080.
-
-In a browser, visit http://localhost:8080
+Doing a full nuke and rewrite since it wasn't far along and I want to change the stack
+being used just a bit. Moving from Ruby on Rails to Spring Boot for the API, and using
+the newest version of React Router in a Vite set up React project. Keeping PostgresSQL 
+as the default database, but using RDS instead of straight EC2 so that backups and 
+failovers are one less thing I have to worry about.
