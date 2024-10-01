@@ -17,7 +17,7 @@ stages:
   rules:
     - changes:
         - hk_client/**/*
-      when: always
+
 
 ASSUME_ROLE:
   stage: commit
@@ -70,12 +70,11 @@ CLIENT__DEPLOY_STAGING:
       - '/usr/bin/env'
   stage: acceptance
   rules:
-    - !reference [ .client_rules, rules ]
     - if: $CI_COMMIT_BRANCH == "production"
       when: never
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
       when: never
-    - when: always
+    - !reference [ .client_rules, rules ]
   script:
     - aws s3 sync hk_client/dist s3://${S3_BUCKET}/staging
     - aws cloudfront create-invalidation --distribution-id ${STAGING_DISTRIBUTION_ID} --paths "/index.html"
