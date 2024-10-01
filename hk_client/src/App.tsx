@@ -6,6 +6,7 @@ import {LoginAction} from "./actions/login_action.ts";
 import SignUp from "./components/SIgnUp.tsx";
 import {SignUpAction} from "./actions/sign_up_action.ts";
 import Layout from "./components/Layout.tsx";
+import Dashboard from "./pages/Dashboard.tsx";
 
 const router = createBrowserRouter([
   {
@@ -30,7 +31,7 @@ const router = createBrowserRouter([
       },
       {
         path: Routes.DASHBOARD,
-        element: <h3>Dashboard</h3>
+        Component: Dashboard,
       }
     ],
   },
