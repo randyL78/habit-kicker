@@ -25,6 +25,8 @@ variables:
 
 .api_rules:
   rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+      when: never
     - changes:
         - hk_api/**/*
 
