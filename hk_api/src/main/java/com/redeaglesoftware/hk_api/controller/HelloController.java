@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/hk-staging")
+@RequestMapping("/${base.path}")
 public class HelloController {
     @GetMapping
     public ResponseEntity<String> hello() {
