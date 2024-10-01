@@ -18,6 +18,8 @@ variables:
 
 .client_rules:
   rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+      when: never
     - changes:
         - hk_client/**/*
 
@@ -78,8 +80,6 @@ CLIENT__DEPLOY_STAGING:
   stage: acceptance
   rules:
     - if: $CI_COMMIT_BRANCH == "production"
-      when: never
-    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
       when: never
     - !reference [ .client_rules, rules ]
   script:
@@ -148,4 +148,4 @@ API_DEPLOY_PRODUCTION:
   script:
     - docker build -t $TAG:production .
     - docker push $TAG:production
-    - aws ecs update-service --cluster $CLUSTER --service $ECS_SERVICE --force-new-deployment
+    - aws ecs update-service --cluster $CLUSTER --service $ECS_PRODUCTION_SERVICE --force-new-deployment
