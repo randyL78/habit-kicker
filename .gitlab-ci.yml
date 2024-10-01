@@ -13,6 +13,12 @@ stages:
     - cd hk_client
     - npm i
 
+.client_rules:
+  rules:
+    - changes:
+        - hk_client/**/*
+      when: always
+
 ASSUME_ROLE:
   stage: commit
   image:
@@ -41,6 +47,8 @@ ASSUME_ROLE:
 CLIENT_LINT:
   <<: *client_setup
   stage: commit
+  rules:
+    - !reference [.client_rules, rules]
   script:
     - npm run lint
 
@@ -49,6 +57,8 @@ CLIENT__BUILD:
   stage: commit
   script:
     - npm run build
+  rules:
+    - !reference [ .client_rules, rules ]
   artifacts:
     paths:
       - hk_client/dist
@@ -60,6 +70,7 @@ CLIENT__DEPLOY_STAGING:
       - '/usr/bin/env'
   stage: acceptance
   rules:
+    - !reference [ .client_rules, rules ]
     - if: $CI_COMMIT_BRANCH == "production"
       when: never
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
@@ -76,6 +87,7 @@ CLIENT__DEPLOY_PRODUCTION:
       - '/usr/bin/env'
   stage: deploy
   rules:
+    - !reference [ .client_rules, rules ]
     - if: $CI_COMMIT_BRANCH == "production"
   script:
     - aws s3 sync hk_client/dist s3://${S3_BUCKET}/production
