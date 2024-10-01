@@ -11,7 +11,7 @@ export async function SignUpAction({ request }: LoaderFunctionArgs) {
     error: 'Please fix all errors before resubmitting.',
     usernameError: '',
     passwordError: '',
-    confirmPasswordError: 'Please fix all errors before resubmitting.',
+    confirmPasswordError: '',
   }
 
   if (!username) {
