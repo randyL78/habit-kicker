@@ -85,7 +85,6 @@ CLIENT__DEPLOY_PRODUCTION:
       - '/usr/bin/env'
   stage: deploy
   rules:
-    - !reference [ .client_rules, rules ]
     - if: $CI_COMMIT_BRANCH == "production"
       changes:
         - hk_client/**/*

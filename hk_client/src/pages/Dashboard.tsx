@@ -7,7 +7,7 @@ export default function Dashboard() {
       <Navbar />
       <Box pt={15}>
         <Container>
-          <h1>Dashboard!</h1>
+          <h1>Dashboard</h1>
         </Container>
       </Box>
     </>
