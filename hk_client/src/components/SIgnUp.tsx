@@ -1,17 +1,26 @@
 import {Box, Button, Dialog, DialogContent, DialogTitle, IconButton, Link, TextField, Typography} from "@mui/material";
-import {Form, Link as RouterLink, useActionData, useNavigate} from "react-router-dom";
 import {Routes} from "../constants/routes.ts";
 import Logo from "./Logo.tsx";
+import {Form, Link as RouterLink, useActionData, useNavigate} from "react-router-dom";
 
-interface loginActionData {
+
+interface signUpActionData {
   error: string;
   usernameError: string;
   passwordError: string;
+  confirmPasswordError: string;
 }
 
-export default function Login() {
+const defaultActionData: signUpActionData = {
+  error: '',
+  usernameError: '',
+  passwordError: '',
+  confirmPasswordError: ''
+}
+
+export default function SignUp() {
   const navigate = useNavigate();
-  const { error, usernameError, passwordError } = (useActionData() || { error: '', usernameError: '', passwordError: '' }) as loginActionData;
+  const { error, usernameError, passwordError, confirmPasswordError } = (useActionData() || defaultActionData) as signUpActionData;
 
   return (
     <Dialog open={true} onClose={() => {navigate(Routes.HOME)}}>
@@ -24,11 +33,11 @@ export default function Login() {
         </Box>
       </DialogTitle>
       <DialogContent>
-        <Typography variant='h4' component='h1'>Sign In</Typography>
+        <Typography variant='h4' component='h1'>Sign Up</Typography>
         <Box mt={4}>
           <Form method='POST' replace>
-            <Box flexDirection='column'>
-              <Typography variant="body1" component="label" color={usernameError ? 'error' : 'primary'}>
+            <Box display='flex' flexDirection='column'>
+              <Typography variant="body1" component="label" color='primary'>
                 Username<Typography variant='body1' component='span' color='error'>*</Typography>
                 <TextField
                   error={!!usernameError}
@@ -38,9 +47,10 @@ export default function Login() {
                   placeholder='your@email.com'
                 />
               </Typography>
+              <Typography variant="body1" component="label" color='error'>{usernameError}</Typography>
             </Box>
-            <Box pt={2}>
-              <Typography variant="body1" component="label" color={passwordError ? 'error' : 'primary'}>
+            <Box pt={2} display='flex' flexDirection='column'>
+              <Typography variant="body1" component="label" color='primary'>
                 Password<Typography variant='body1' component='span' color='error'>*</Typography>
                 <TextField
                   error={!!passwordError}
@@ -51,13 +61,28 @@ export default function Login() {
                   placeholder='*******'
                 />
               </Typography>
+              <Typography variant="body1" component="label" color='error'>{passwordError}</Typography>
+            </Box>
+            <Box pt={2} display='flex' flexDirection='column'>
+              <Typography variant="body1" component="label" color='primary'>
+                Confirm Password<Typography variant='body1' component='span' color='error'>*</Typography>
+                <TextField
+                  error={!!confirmPasswordError}
+                  size='small'
+                  type='password'
+                  name='confirmPassword'
+                  fullWidth
+                  placeholder='*******'
+                />
+              </Typography>
+              <Typography variant="body1" component="label" color='error'>{confirmPasswordError}</Typography>
             </Box>
             <Box mt={2}>
               <Typography color='error' component="p">{error}</Typography>
             </Box>
             <Box pt={4} mt={error ? 0 : 5}>
-              <Button type='submit' fullWidth variant='contained'>Sign In</Button>
-              <Typography color='primary' textAlign='center' mt={2}>Don't have an account? <Link ml={1} component={RouterLink} to={Routes.SIGN_UP}>Sign Up</Link></Typography>
+              <Button type='submit' fullWidth variant='contained'>Sign Up</Button>
+              <Typography color='primary' textAlign='center' mt={2}>Already have an account? <Link ml={1} component={RouterLink} to={Routes.LOGIN}>Sign In</Link></Typography>
             </Box>
           </Form>
           <Typography mt={4} align='center'>
