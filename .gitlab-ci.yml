@@ -131,7 +131,7 @@ API_DEPLOY_STAGING:
     - docker build -t $TAG .
     - docker push $TAG
     - aws ecs update-service --cluster $CLUSTER --service $ECS_SERVICE --force-new-deployment
-    -
+
 API_DEPLOY_PRODUCTION:
   image: docker:24.0.5
   services:
