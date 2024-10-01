@@ -96,7 +96,7 @@ CLIENT__DEPLOY_PRODUCTION:
     - aws cloudfront create-invalidation --distribution-id ${PRODUCTION_DISTRIBUTION_ID} --paths "/index.html"
 
 API_BUILD:
-  image: amazoncorreto:17
+  image: amazoncorretto:17
   stage: commit
   script:
     - cd hk_api
