@@ -30,7 +30,7 @@ export default function Home() {
           >
             Sign in
           </Button>
-          <Button color="primary" variant="contained" size="small">
+          <Button color="primary" variant="contained" size="small" component={RouterLink} to={Routes.SIGN_UP}>
             Sign up
           </Button>
         </Navbar>
@@ -43,8 +43,8 @@ export default function Home() {
           </Container>
         </Box>
         <BottomNavbar>
-          <BottomNavigationAction label='Sign In' icon={<Login color='primary'/>} component={RouterLink} to="/login" />
-          <BottomNavigationAction label='Sign Up' icon={<AppRegistration color='primary'/>}/>
+          <BottomNavigationAction label='Sign In' icon={<Login color='primary'/>} component={RouterLink} to={Routes.LOGIN} />
+          <BottomNavigationAction label='Sign Up' icon={<AppRegistration color='primary'/>} component={RouterLink} to={Routes.SIGN_UP}/>
         </BottomNavbar>
         <Outlet />
       </Box>
