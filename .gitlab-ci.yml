@@ -21,6 +21,11 @@ variables:
     - changes:
         - hk_client/**/*
 
+.api_rules:
+  rules:
+    - changes:
+        - hk_api/**/*
+
 ASSUME_ROLE:
   stage: commit
   image:
@@ -101,15 +106,23 @@ API_BUILD:
   script:
     - cd hk_api
     - ./gradlew build -x test
+  rules:
+    - !reference [ .api_rules, rules ]
   artifacts:
     paths:
       - hk_api/build/libs
 
-API_CONTAINER:
+API_DEPLOY_STAGING:
   image: docker:24.0.5
   services:
     - docker:24.0.5-dind
   stage: acceptance
+  rules:
+    - if: $CI_COMMIT_BRANCH == "production"
+      when: never
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+      when: never
+    - !reference [ .api_rules, rules ]
   before_script:
     - apk add --no-cache aws-cli
     - aws ecr get-login-password | docker login $ECR_REPOSITORY -u AWS --password-stdin
@@ -118,4 +131,21 @@ API_CONTAINER:
     - docker build -t $TAG .
     - docker push $TAG
     - aws ecs update-service --cluster $CLUSTER --service $ECS_SERVICE --force-new-deployment
-
+    -
+API_DEPLOY_PRODUCTION:
+  image: docker:24.0.5
+  services:
+    - docker:24.0.5-dind
+  stage: deploy
+  rules:
+    - if: $CI_COMMIT_BRANCH == "production"
+      changes:
+        - hk_api/**/*
+  before_script:
+    - apk add --no-cache aws-cli
+    - aws ecr get-login-password | docker login $ECR_REPOSITORY -u AWS --password-stdin
+    - cd hk_api
+  script:
+    - docker build -t $TAG:production .
+    - docker push $TAG:production
+    - aws ecs update-service --cluster $CLUSTER --service $ECS_SERVICE --force-new-deployment

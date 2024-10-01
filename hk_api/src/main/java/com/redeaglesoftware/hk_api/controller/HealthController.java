@@ -6,10 +6,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/${base.path}")
-public class HelloController {
+@RequestMapping("${base.path}")
+public class HealthController {
     @GetMapping
-    public ResponseEntity<String> hello() {
-        return ResponseEntity.ok("Hello World!");
+    public ResponseEntity<String> healthcheck() {
+        return ResponseEntity.ok("healthy");
     }
 }
