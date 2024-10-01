@@ -87,6 +87,8 @@ CLIENT__DEPLOY_PRODUCTION:
   rules:
     - !reference [ .client_rules, rules ]
     - if: $CI_COMMIT_BRANCH == "production"
+      changes:
+        - hk_client/**/*
   script:
     - aws s3 sync hk_client/dist s3://${S3_BUCKET}/production
     - aws cloudfront create-invalidation --distribution-id ${PRODUCTION_DISTRIBUTION_ID} --paths "/index.html"
