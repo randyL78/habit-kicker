@@ -67,6 +67,7 @@ CLIENT__BUILD:
   <<: *client_setup
   stage: commit
   script:
+    - export VITE_API_URL=https://apis.redeaglesoftware.com/hk-staging
     - npm run build
   rules:
     - !reference [ .client_rules, rules ]
@@ -88,12 +89,28 @@ CLIENT__DEPLOY_STAGING:
     - aws s3 sync hk_client/dist s3://${S3_BUCKET}/staging
     - aws cloudfront create-invalidation --distribution-id ${STAGING_DISTRIBUTION_ID} --paths "/index.html"
 
+CLIENT__BUILD__PRODUCTION:
+  <<: *client_setup
+  stage: deploy
+  script:
+    - export VITE_API_URL=https://apis.redeaglesoftware.com/hk-production
+    - npm run build
+  rules:
+    - if: $CI_COMMIT_BRANCH == "production"
+      changes:
+        - hk_client/**/*
+  artifacts:
+    paths:
+      - hk_client/dist
+
 CLIENT__DEPLOY_PRODUCTION:
   image:
     name: amazon/aws-cli:latest
     entrypoint:
       - '/usr/bin/env'
   stage: deploy
+  dependencies:
+    - CLIENT__BUILD__PRODUCTION
   rules:
     - if: $CI_COMMIT_BRANCH == "production"
       changes:
