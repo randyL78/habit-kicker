@@ -44,14 +44,8 @@ public class AuthController {
         return jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
     }
 
-    @GetMapping("/user/has-access")
+    @GetMapping("/has-access")
     public ResponseEntity<?> hasUserAccess() {
         return ResponseEntity.noContent().build();
     }
-
-    @GetMapping("/admin/has-access")
-    public ResponseEntity<?> hasAdminAccess() {
-        return ResponseEntity.noContent().build();
-    }
-
 }
