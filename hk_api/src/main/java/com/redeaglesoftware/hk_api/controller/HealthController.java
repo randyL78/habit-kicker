@@ -14,8 +14,6 @@ public class HealthController {
 
     @GetMapping
     public ResponseEntity<String> healthcheck() {
-        logger.info("Health check started");
-
         return ResponseEntity.ok("Healthy");
     }
 }
