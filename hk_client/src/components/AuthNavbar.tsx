@@ -1,7 +1,7 @@
 import Navbar from "./Navbar.tsx";
 import BottomNavbar from "./BottomNavbar.tsx";
 import {BottomNavigationAction, Box, Button, IconButton} from "@mui/material";
-import {LogoutTwoTone, Person} from "@mui/icons-material";
+import {ExitToApp, Person} from "@mui/icons-material";
 import {Form, Link as RouterLink} from "react-router-dom"
 import {Routes} from "../constants/routes.ts";
 import {useState} from "react";
@@ -44,7 +44,7 @@ export default function AuthNavbar() {
         </Box>
       </Navbar>
       <BottomNavbar>
-        <BottomNavigationAction label="Sign Out" icon={<LogoutTwoTone />} to={Routes.HOME} component={RouterLink} />
+        <BottomNavigationAction label="Sign Out" icon={<ExitToApp />} to={Routes.HOME} component={RouterLink} />
       </BottomNavbar>
     </>
   )
