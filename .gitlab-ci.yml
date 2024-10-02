@@ -91,7 +91,7 @@ CLIENT__DEPLOY_STAGING:
 
 CLIENT__BUILD__PRODUCTION:
   <<: *client_setup
-  stage: deploy
+  stage: commit
   script:
     - export VITE_API_URL=https://apis.redeaglesoftware.com/hk-production
     - npm run build
@@ -109,8 +109,9 @@ CLIENT__DEPLOY_PRODUCTION:
     entrypoint:
       - '/usr/bin/env'
   stage: deploy
-  dependencies:
-    - CLIENT__BUILD__PRODUCTION
+  needs:
+    - job: CLIENT__BUILD__PRODUCTION
+      artifacts: true
   rules:
     - if: $CI_COMMIT_BRANCH == "production"
       changes:
